@@ -1,23 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { imageUrl, searchMovies } from "../lib/tmdb.js";
-
-const stats = [
-  {
-    label: "Active viewers",
-    value: "24.8k",
-    note: "Watching tonight",
-  },
-  {
-    label: "Curated lists",
-    value: "340+",
-    note: "Updated weekly",
-  },
-  {
-    label: "Premium access",
-    value: "4K HDR",
-    note: "Dolby Atmos",
-  },
-];
 
 export default function HeroSection({ curated, featured, trailerKey }) {
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
@@ -49,9 +32,21 @@ export default function HeroSection({ curated, featured, trailerKey }) {
     return () => clearTimeout(handle);
   }, [query]);
 
+  useEffect(() => {
+    function handleClick(event) {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (target.closest("[data-hero-search]")) return;
+      setIsSearchOpen(false);
+    }
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
   return (
     <section className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-      <div className="space-y-8 fade-up">
+      <div className="relative z-20 space-y-8 fade-up">
         <div className="inline-flex items-center gap-2 rounded-full border border-aurora/30 bg-aurora/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-aurora">
           New release week
           <span className="h-1.5 w-1.5 rounded-full bg-aurora"></span>
@@ -65,7 +60,10 @@ export default function HeroSection({ curated, featured, trailerKey }) {
             discovery engine that learns what makes you hit play.
           </p>
         </div>
-        <div className="glass relative flex flex-col gap-4 rounded-2xl p-4 sm:flex-row sm:items-center">
+        <div
+          className="glass relative flex flex-col gap-4 rounded-2xl p-4 sm:flex-row sm:items-center"
+          data-hero-search
+        >
           <div className="flex-1">
             <input
               className="w-full bg-transparent text-sm text-white placeholder:text-haze focus:outline-none"
@@ -83,16 +81,18 @@ export default function HeroSection({ curated, featured, trailerKey }) {
             Search
           </button>
           {isSearchOpen && (
-            <div className="absolute left-4 right-4 top-full z-20 mt-3 rounded-2xl border border-white/10 bg-midnight/95 p-4 text-sm text-haze shadow-lg backdrop-blur sm:left-0 sm:right-0">
+            <div className="absolute left-0 right-0 top-full z-50 mt-3 w-full rounded-2xl border border-white/10 bg-midnight/95 p-4 text-sm text-haze shadow-lg backdrop-blur">
               <div className="space-y-2">
                 {isSearching && <p className="text-xs text-haze">Searching...</p>}
                 {!isSearching && query && results.length === 0 && (
                   <p className="text-xs text-haze">Movie not found.</p>
                 )}
                 {results.map((movie) => (
-                  <div
+                  <Link
                     key={movie.id}
-                    className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/5 px-3 py-2"
+                    to={`/movie/${movie.id}`}
+                    className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/5 px-3 py-2 transition hover:border-white/20"
+                    onClick={() => setIsSearchOpen(false)}
                   >
                     <div className="h-10 w-10 overflow-hidden rounded-lg bg-white/10">
                       {movie.poster_path ? (
@@ -112,24 +112,16 @@ export default function HeroSection({ curated, featured, trailerKey }) {
                         · Rating {movie.vote_average?.toFixed(1) ?? "N/A"}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
           )}
         </div>
-        <div className="flex flex-wrap gap-4">
-          {stats.map((item) => (
-            <div key={item.label} className="glass flex-1 rounded-2xl p-4">
-              <p className="text-xs uppercase text-haze">{item.label}</p>
-              <p className="mt-2 text-2xl font-semibold">{item.value}</p>
-              <p className="text-xs text-haze">{item.note}</p>
-            </div>
-          ))}
-        </div>
+        
       </div>
 
-      <div className="relative fade-up fade-up-delay-2">
+      <div className="relative z-10 fade-up fade-up-delay-2">
         <div className="absolute -right-6 top-6 h-40 w-40 rounded-3xl border border-white/10 bg-white/5 blur-2xl" />
         <div className="glass relative overflow-hidden rounded-3xl p-6">
           <div className="relative h-64 w-full overflow-hidden rounded-2xl text-midnight">

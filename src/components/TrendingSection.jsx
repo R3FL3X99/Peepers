@@ -9,21 +9,24 @@ export default function TrendingSection({ trending, upcoming }) {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="font-display text-2xl font-semibold">Trending now</h3>
-          <button className="text-sm text-haze">View all</button>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
-          {trending.map((movie) => {
+          {trending.map((movie, index) => {
             const Card = movie.id ? Link : "div";
             const props = movie.id
               ? {
                   to: `/movie/${movie.id}`,
                   className:
-                    "glass flex flex-col gap-4 rounded-2xl p-4 transition hover:border-white/30",
+                    "glass flex flex-col gap-4 rounded-2xl p-4 transition hover:border-white/30 fade-up",
                 }
-              : { className: "glass flex flex-col gap-4 rounded-2xl p-4" };
+              : { className: "glass flex flex-col gap-4 rounded-2xl p-4 fade-up" };
 
             return (
-              <Card key={movie.title} {...props}>
+              <Card
+                key={movie.title}
+                {...props}
+                style={{ animationDelay: `${Math.min(index, 3) * 0.08}s` }}
+              >
               <div className="relative aspect-[2/3] overflow-hidden rounded-xl">
                 <img
                   className="absolute inset-0 h-full w-full object-cover object-top"

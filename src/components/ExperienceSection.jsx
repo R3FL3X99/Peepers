@@ -1,7 +1,7 @@
 export default function ExperienceSection() {
   return (
     <section className="mt-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-      <div className="glass rounded-3xl p-6">
+      <div className="glass rounded-3xl p-6 fade-up">
         <h3 className="font-display text-xl font-semibold">
           Personal cinema room
         </h3>
@@ -34,7 +34,7 @@ export default function ExperienceSection() {
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-8">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-8 fade-up fade-up-delay-2">
         <div className="hero-stripe absolute inset-0 opacity-30"></div>
         <div className="relative z-10 space-y-6">
           <h3 className="font-display text-3xl font-semibold">

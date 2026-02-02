@@ -11,6 +11,7 @@ import {
 import {
   getGenres,
   getMovieDetails,
+  getMovieVideos,
   getNowPlaying,
   getTrending,
   getUpcoming,
@@ -42,8 +43,19 @@ function formatDate(value) {
   });
 }
 
+function pickTrailer(videos = []) {
+  const youtube = videos.filter(
+    (video) => video.site === "YouTube" && video.key
+  );
+  const trailer = youtube.find((video) => video.type === "Trailer");
+  return trailer?.key || youtube[0]?.key || "";
+}
+
 export default function Home() {
   const [featured, setFeatured] = useState(featuredFallback);
+  const [featuredTrailer, setFeaturedTrailer] = useState("");
+  const [featuredPool, setFeaturedPool] = useState([]);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
   const [trending, setTrending] = useState(trendingFallback);
   const [upcoming, setUpcoming] = useState(upcomingFallback);
   const [curated, setCurated] = useState(curatedFallback);
@@ -69,6 +81,8 @@ export default function Home() {
         const trendingMovies = trendingRes.results.slice(0, 6);
         const curatedMovies = nowPlayingRes.results.slice(0, 4);
 
+        setFeaturedPool(trendingMovies);
+        setFeaturedIndex(0);
         setTrending(
           trendingMovies.map((movie) => mapMovieCard(movie, genreMap))
         );
@@ -90,7 +104,10 @@ export default function Home() {
 
         const featuredMovie = trendingMovies[0];
         if (featuredMovie) {
-          const details = await getMovieDetails(featuredMovie.id);
+          const [details, videos] = await Promise.all([
+            getMovieDetails(featuredMovie.id),
+            getMovieVideos(featuredMovie.id),
+          ]);
           if (!isActive) return;
           setFeatured({
             title: details.title,
@@ -98,6 +115,7 @@ export default function Home() {
             time: "Tonight, 9:30 PM",
             image: imageUrl(details.backdrop_path, "w1280"),
           });
+          setFeaturedTrailer(pickTrailer(videos.results));
         }
       } catch (error) {
         console.error("TMDB fetch failed", error);
@@ -110,9 +128,51 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!featuredPool.length) return;
+    const timer = setInterval(() => {
+      setFeaturedIndex((prev) => (prev + 1) % featuredPool.length);
+    }, 10000);
+    return () => clearInterval(timer);
+  }, [featuredPool]);
+
+  useEffect(() => {
+    let isActive = true;
+
+    async function loadFeatured() {
+      const current = featuredPool[featuredIndex];
+      if (!current) return;
+      try {
+        const [details, videos] = await Promise.all([
+          getMovieDetails(current.id),
+          getMovieVideos(current.id),
+        ]);
+        if (!isActive) return;
+        setFeatured({
+          title: details.title,
+          tagline: details.tagline || details.overview,
+          time: "Tonight, 9:30 PM",
+          image: imageUrl(details.backdrop_path, "w1280"),
+        });
+        setFeaturedTrailer(pickTrailer(videos.results));
+      } catch (error) {
+        console.error("Featured update failed", error);
+      }
+    }
+
+    loadFeatured();
+    return () => {
+      isActive = false;
+    };
+  }, [featuredIndex, featuredPool]);
+
   return (
     <>
-      <HeroSection curated={curated} featured={featured} />
+      <HeroSection
+        curated={curated}
+        featured={featured}
+        trailerKey={featuredTrailer}
+      />
       <TrendingSection trending={trending} upcoming={upcoming} />
       <ExperienceSection />
     </>

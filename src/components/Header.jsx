@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { imageUrl, searchMovies } from "../lib/tmdb.js";
 
 const linkBase = "transition hover:text-white";
@@ -59,7 +59,7 @@ export default function Header() {
 
   return (
     <header className="flex flex-wrap items-center justify-between gap-6">
-      <div className="flex items-center gap-3">
+      <Link to="/" className="flex items-center gap-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-aurora text-midnight shadow-glow">
           <svg
             viewBox="0 0 24 24"
@@ -78,7 +78,7 @@ export default function Header() {
           </h1>
           <p className="text-xs text-haze">Curated cinema experience</p>
         </div>
-      </div>
+      </Link>
       <nav className="flex flex-wrap items-center gap-4 text-sm text-haze">
         <NavLink
           to="/"

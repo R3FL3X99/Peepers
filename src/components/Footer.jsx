@@ -109,14 +109,14 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-4 text-[11px] text-haze">
-        <div className="flex items-center gap-3 rounded-full border border-white/10 px-3 py-2">
+      <div className="mt-6 flex flex-col gap-3 text-[11px] text-haze sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-2 rounded-2xl border border-white/10 px-3 py-2 sm:flex-row sm:items-center sm:gap-3">
           <img
-            className="h-5 w-auto opacity-80"
+            className="h-4 w-auto opacity-80 sm:h-5"
             src="/tmdb.svg"
             alt="TMDB"
           />
-          <span>
+          <span className="max-w-xs leading-relaxed sm:max-w-none">
             This product uses the TMDB API but is not endorsed or certified by TMDB.
           </span>
         </div>
@@ -124,7 +124,7 @@ export default function Footer() {
           href="https://www.themoviedb.org/"
           target="_blank"
           rel="noreferrer"
-          className="transition hover:text-white"
+          className="self-start transition hover:text-white sm:self-auto"
         >
           tmdb.org
         </a>

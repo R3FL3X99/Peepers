@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { imageUrl, searchMovies } from "../lib/tmdb.js";
 
 const linkBase = "transition hover:text-white";
@@ -79,6 +79,7 @@ export default function Header() {
           <p className="text-xs text-haze">Curated cinema experience</p>
         </div>
       </Link>
+
       <nav className="flex flex-wrap items-center gap-4 text-sm text-haze">
         <NavLink
           to="/"
@@ -114,8 +115,9 @@ export default function Header() {
           Anime
         </NavLink>
       </nav>
+
       <div
-        className="relative flex w-full items-center justify-end gap-3 sm:w-auto"
+        className="relative z-40 flex w-full items-center justify-end gap-3 sm:w-auto"
         data-header-search
       >
         <button
@@ -141,19 +143,35 @@ export default function Header() {
           onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
           aria-label="Toggle theme"
         >
-          {theme === "dark" ? "☀︎" : "☾"}
+          {theme === "dark" ? (
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="currentColor"
+            >
+              <path d="M12 3a1 1 0 0 1 1 1v2.1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1zm0 14.9a1 1 0 0 1 1 1V21a1 1 0 1 1-2 0v-2.1a1 1 0 0 1 1-1zM4 11a1 1 0 0 1 1-1h2.1a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1zm12.9 0a1 1 0 0 1 1-1H20a1 1 0 1 1 0 2h-2.1a1 1 0 0 1-1-1zM6.2 6.2a1 1 0 0 1 1.4 0l1.5 1.5a1 1 0 1 1-1.4 1.4L6.2 7.6a1 1 0 0 1 0-1.4zm8.7 8.7a1 1 0 0 1 1.4 0l1.5 1.5a1 1 0 1 1-1.4 1.4l-1.5-1.5a1 1 0 0 1 0-1.4zM17.8 6.2a1 1 0 0 1 0 1.4l-1.5 1.5a1 1 0 1 1-1.4-1.4l1.5-1.5a1 1 0 0 1 1.4 0zM7.6 14.9a1 1 0 0 1 0 1.4l-1.5 1.5a1 1 0 1 1-1.4-1.4l1.5-1.5a1 1 0 0 1 1.4 0zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+            </svg>
+          ) : (
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="currentColor"
+            >
+              <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z" />
+            </svg>
+          )}
         </button>
 
         {isSearchOpen && (
-          <div className="absolute left-0 right-0 z-20 mt-3 w-full max-w-sm rounded-2xl border border-white/10 bg-midnight/90 p-4 text-sm text-haze shadow-lg backdrop-blur sm:left-auto sm:right-0 sm:w-80">
+          <div className="absolute left-0 right-0 top-full z-50 mt-3 w-full max-w-sm rounded-2xl border border-white/10 bg-midnight/95 p-4 text-sm text-haze shadow-2xl backdrop-blur sm:left-auto sm:right-0 sm:w-80">
             <div className="flex items-center gap-2 rounded-full border border-white/10 px-3 py-2">
               <span className="text-xs">⌕</span>
-                <input
-                  className="w-full bg-transparent text-sm text-white placeholder:text-haze focus:outline-none"
-                  placeholder="Search"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                />
+              <input
+                className="w-full bg-transparent text-sm text-white placeholder:text-haze focus:outline-none"
+                placeholder="Search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
             </div>
             <div className="mt-3 space-y-2">
               {isLoading && <p className="text-xs text-haze">Searching...</p>}
@@ -161,9 +179,11 @@ export default function Header() {
                 <p className="text-xs text-haze">Movie not found.</p>
               )}
               {results.map((movie) => (
-                <div
+                <Link
                   key={movie.id}
-                  className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/5 px-3 py-2"
+                  to={`/movie/${movie.id}`}
+                  onClick={() => setIsSearchOpen(false)}
+                  className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/5 px-3 py-2 transition hover:border-white/20"
                 >
                   <div className="h-10 w-10 overflow-hidden rounded-lg bg-white/10">
                     {movie.poster_path ? (
@@ -183,7 +203,7 @@ export default function Header() {
                       · Rating {movie.vote_average?.toFixed(1) ?? "N/A"}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

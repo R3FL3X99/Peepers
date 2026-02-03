@@ -27,42 +27,7 @@ export default function Footer() {
             Original premieres, iconic classics, and community watch rooms in
             one cinematic universe.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <button className="group flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs text-haze transition hover:border-white/30 hover:text-white">
-              <span className="h-2 w-2 rounded-full bg-aurora/70 shadow-glow"></span>
-              App Store
-            </button>
-            <button className="group flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs text-haze transition hover:border-white/30 hover:text-white">
-              <span className="h-2 w-2 rounded-full bg-ember/70"></span>
-              Google Play
-            </button>
-          </div>
-        </div>
 
-        <div className="space-y-3 text-sm text-haze">
-          <p className="flex items-center gap-2 font-semibold text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-aurora/80"></span>
-            Explore
-          </p>
-          <div className="space-y-2">
-            <p className="cursor-pointer transition hover:text-white">Discover</p>
-            <p className="cursor-pointer transition hover:text-white">Originals</p>
-            <p className="cursor-pointer transition hover:text-white">Trending</p>
-            <p className="cursor-pointer transition hover:text-white">Events</p>
-          </div>
-        </div>
-
-        <div className="space-y-3 text-sm text-haze">
-          <p className="flex items-center gap-2 font-semibold text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-ember/80"></span>
-            Company
-          </p>
-          <div className="space-y-2">
-            <p className="cursor-pointer transition hover:text-white">About</p>
-            <p className="cursor-pointer transition hover:text-white">Careers</p>
-            <p className="cursor-pointer transition hover:text-white">Press</p>
-            <p className="cursor-pointer transition hover:text-white">Contact</p>
-          </div>
         </div>
 
         <div className="space-y-3 text-sm text-haze">
@@ -83,33 +48,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-haze">
-        <p>Peepers Studio, 2026</p>
-        <div className="flex flex-wrap gap-4">
-          <span className="cursor-pointer transition hover:text-white">
-            Privacy
-          </span>
-          <span className="cursor-pointer transition hover:text-white">Terms</span>
-          <span className="cursor-pointer transition hover:text-white">
-            Cookies
-          </span>
-        </div>
-        <div className="flex flex-wrap gap-4 text-xs">
-          <span className="flex cursor-pointer items-center gap-2 text-haze transition hover:text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-aurora/70"></span>
-            Instagram
-          </span>
-          <span className="flex cursor-pointer items-center gap-2 text-haze transition hover:text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-white/60"></span>X
-          </span>
-          <span className="flex cursor-pointer items-center gap-2 text-haze transition hover:text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-ember/70"></span>
-            YouTube
-          </span>
-        </div>
-      </div>
-
-      <div className="mt-6 flex flex-col gap-3 text-[11px] text-haze sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-8 flex flex-col gap-3 text-[11px] text-haze sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-2 rounded-2xl border border-white/10 px-3 py-2 sm:flex-row sm:items-center sm:gap-3">
           <img
             className="h-4 w-auto opacity-80 sm:h-5"

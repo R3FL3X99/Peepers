@@ -114,7 +114,10 @@ export default function Header() {
           Anime
         </NavLink>
       </nav>
-      <div className="relative flex items-center gap-3" data-header-search>
+      <div
+        className="relative flex w-full items-center justify-end gap-3 sm:w-auto"
+        data-header-search
+      >
         <button
           className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-haze transition hover:border-white/30 hover:text-white"
           type="button"
@@ -142,7 +145,7 @@ export default function Header() {
         </button>
 
         {isSearchOpen && (
-          <div className="absolute right-0 top-full z-20 mt-3 w-80 rounded-2xl border border-white/10 bg-midnight/90 p-4 text-sm text-haze shadow-lg backdrop-blur">
+          <div className="absolute left-0 right-0 z-20 mt-3 w-full max-w-sm rounded-2xl border border-white/10 bg-midnight/90 p-4 text-sm text-haze shadow-lg backdrop-blur sm:left-auto sm:right-0 sm:w-80">
             <div className="flex items-center gap-2 rounded-full border border-white/10 px-3 py-2">
               <span className="text-xs">⌕</span>
                 <input

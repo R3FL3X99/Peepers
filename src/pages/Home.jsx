@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ExperienceSection from "../components/ExperienceSection.jsx";
 import HeroSection from "../components/HeroSection.jsx";
 import TrendingSection from "../components/TrendingSection.jsx";
 import {
@@ -174,7 +173,6 @@ export default function Home() {
         trailerKey={featuredTrailer}
       />
       <TrendingSection trending={trending} upcoming={upcoming} />
-      <ExperienceSection />
     </>
   );
 }
